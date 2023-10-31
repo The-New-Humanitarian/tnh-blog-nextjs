@@ -12,7 +12,7 @@ const ArticleFilter = ({ authors, lang, currentFilter }) => {
 					return <span className={'block'} key={`sidebar-link-${el.slug}`}>{el.name}</span>
 				}
 				return (
-					<Link href={`/car-live-blog/${lang}/by-author/${el.slug}`} key={`sidebar-link-${el.slug}`}>
+					<Link href={`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/by-author/${el.slug}`} key={`sidebar-link-${el.slug}`}>
 						<p className={'block cursor-pointer text-burgundy font-medium hover:underline text-white sm:text-inherit'}>{el.name}</p>
 					</Link>
 				)

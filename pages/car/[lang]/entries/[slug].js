@@ -16,7 +16,7 @@ const LiveBlogEntry = ({ liveBlogEntryCollection, liveBlogData, lang, liveBlogPa
 
 	const shareProps = {
 		title: liveBlogEntryCollection.title || 'The New Humanitarian | Live from the CAR', // TODO
-		url: `https://vercel.thenewhumanitarian.org/car-live-blog/${lang}/entries/${liveBlogEntryCollection.slug}`, // TODO
+		url: `https://vercel.thenewhumanitarian.org/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/entries/${liveBlogEntryCollection.slug}`, // TODO
 		socialTitle: liveBlogEntryCollection.title || 'The New Humanitarian | Live from the CAR', // TODO
 		socialDescription: 'Our journalism, impact, audience, and more.', // TODO
 		socialImage: 'https://www.thenewhumanitarian.org/s3/files/styles/responsive_large_2x/public/annualreport.png?itok=Y0cc4R4Y', // TODO

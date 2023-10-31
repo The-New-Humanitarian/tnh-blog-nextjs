@@ -41,7 +41,7 @@ const Header = ({ dark, shareProps, lang, hideBackButton }) => {
 									Donate
 								</a>
 							) : (
-								<Link href={`${lang === 'en' ? '/car-live-blog/en/' : '/car-live-blog/fr/'}`}>
+								<Link href={`${lang === 'en' ? '/' + process.env.NEXT_PUBLIC_CAR_BLOG_URL + '/en/' : '/' + process.env.NEXT_PUBLIC_CAR_BLOG_URL + '/fr/'}`}>
 									<button className={'block sm:hidden bg-burgundy px-2 py-1 text-white font-normal text-sm font-bold'}>
 										<span>{lang === 'en' ? '← ' : '← '}</span>
 										<span className={'hidden sm:block'}>{lang === 'en' ? 'Overview' : 'Retour'}</span>

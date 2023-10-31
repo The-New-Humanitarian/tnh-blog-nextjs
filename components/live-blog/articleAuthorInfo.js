@@ -12,8 +12,8 @@ const ArticleAuthorInfo = ({ author, lang }) => {
 				<h4 className={'font-bold text-white sm:text-black'}>{author?.name}</h4>
 			</div>
 			<RichtextComponent className={'text-white sm:text-black'} content={author?.description.json} />
-			<Link className={'text-white sm:text-black pt-2 block sm:text-burgundy'} href={`/car-live-blog/${lang}/by-author/${author.slug}`}>Show posts</Link>
-		</li>
+			<Link className={'text-white sm:text-black pt-2 block sm:text-burgundy'} href={`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/by-author/${author.slug}`}>Show posts</Link>
+		</li >
 	)
 }
 

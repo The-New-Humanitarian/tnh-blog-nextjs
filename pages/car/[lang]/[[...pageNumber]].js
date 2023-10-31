@@ -12,7 +12,7 @@ import HorizontalTimelineComponent from '@components/live-blog/timeline/horizont
 const AllLiveBlogs = ({ lang, liveBlogData, liveBlogPages, liveBlogAuthors, liveBlogAllEntries, itemsPerPage, pageNumber, numberOfEntries }) => {
 	const shareProps = {
 		title: 'The New Humanitarian | Live from the CAR', // TODO
-		url: 'https://vercel.thenewhumanitarian.org/car-live-blog/en', // TODO
+		url: 'https://vercel.thenewhumanitarian.org/' + process.env.NEXT_PUBLIC_CAR_BLOG_URL + '/en', // TODO
 		socialTitle: 'The New Humanitarian | Live from the CAR', // TODO
 		socialDescription: 'Our journalism, impact, audience, and more.', // TODO
 		socialImage: 'https://www.thenewhumanitarian.org/s3/files/styles/responsive_large_2x/public/annualreport.png?itok=Y0cc4R4Y',
@@ -49,13 +49,13 @@ const AllLiveBlogs = ({ lang, liveBlogData, liveBlogPages, liveBlogAuthors, live
 					{/* <h2 className={'hidden sm:block'}>Latest entries</h2> */}
 					<Feed lang={lang} entries={liveBlogData.contentCollection.items.filter(el => el?.date)} />
 					<div className={'flex flex-row justify-between pt-5'}>
-						<Link href={`/car-live-blog/${lang}/${pageNumber <= 1 ? '' : pageNumber - 1}`} className={`${pageNumber > 0 ? '' : 'opacity-0 pointer-events-none'}`}>
+						<Link href={`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/${pageNumber <= 1 ? '' : pageNumber - 1}`} className={`${pageNumber > 0 ? '' : 'opacity-0 pointer-events-none'}`}>
 							{lang === 'en' ? '← Previous' : '← Précédent'}
 						</Link>
 						<div className={'text-gray-600'}>
 							{pageNumber + 1} of {Math.ceil(numberOfEntries / itemsPerPage)}
 						</div>
-						<Link href={`/car-live-blog/${lang}/${pageNumber + 1}`} className={`${pageNumber < Math.ceil(numberOfEntries / itemsPerPage) - 1 ? '' : 'opacity-0 pointer-events-none'}`}>
+						<Link href={`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/${pageNumber + 1}`} className={`${pageNumber < Math.ceil(numberOfEntries / itemsPerPage) - 1 ? '' : 'opacity-0 pointer-events-none'}`}>
 							{lang === 'en' ? 'Next →' : 'Suivant →'}
 						</Link>
 					</div>

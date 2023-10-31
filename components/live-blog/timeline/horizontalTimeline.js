@@ -53,7 +53,7 @@ function HorizontalTimelineComponent({ liveBlogs, lang }) {
 		}
 
 		// Push URL to next/router
-		router.push(`/car-live-blog/${lang}/entries/${slug}`);
+		router.push(`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/entries/${slug}`);
 	}
 
 	return (

@@ -78,7 +78,7 @@ export default function Feed({ entries, lang }) {
 								<div className='flex-1 min-w-0'>
 									<div>
 										<div className='flex items-center justify-between w-full gap-x-4'>
-											<a href={`/car-live-blog/${lang}/entries/${activityItem.slug}`} className='font-serif text-white' target="_top">
+											<a href={`/${process.env.NEXT_PUBLIC_CAR_BLOG_URL}/${lang}/entries/${activityItem.slug}`} className='font-serif text-white' target="_top">
 												<h3 className={'text-lg font-normal mb-0 mt-1 line-clamp-1'}>{activityItem.title}</h3>
 											</a>
 										</div>
@@ -94,7 +94,7 @@ export default function Feed({ entries, lang }) {
 					</li>
 				))}
 				<li className={'cursor-pointer underline hover:underline font-bold'}>
-					<Link href={'https://vercel-preview.thenewhumanitarian.org/car-live-blog/en'}>
+					<Link href={'https://vercel-preview.thenewhumanitarian.org/' + process.env.NEXT_PUBLIC_CAR_BLOG_URL + '/en'}>
 						<p className={'text-center pt-5 text-white hover:underline'}>See all entries</p>
 					</Link>
 				</li>
