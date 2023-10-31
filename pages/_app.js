@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
 import { ArticleProvider } from '@store/articleContext'
+import { initializeGoogleTagManager } from '@utils/gtm';
+
 
 import '@styles/reset.css'
 import '@styles/global.css'
@@ -9,6 +11,10 @@ import '@styles/tailwind.css'
 // import '@styles/timeline.scss'
 
 function MyApp({ Component, pageProps }) {
+	useEffect(() => {
+		initializeGoogleTagManager('GTM-W365VRGW');
+	}, []);
+
 	useEffect(() => {
 		window.OneSignal = window.OneSignal || [];
 		OneSignal.push(function () {
