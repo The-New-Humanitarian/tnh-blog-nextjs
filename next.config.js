@@ -2,6 +2,15 @@ module.exports = {
 	images: {
 		domains: ['images.ctfassets.net', 'videos.ctfassets.net'],
 	},
+	async redirects() {
+		return [
+			{
+				source: '/car',
+				destination: '/car/en',
+				permanent: true,
+			},
+		]
+	},
 	compiler: {
 		// Enables the styled-components SWC transform
 		styledComponents: true,
