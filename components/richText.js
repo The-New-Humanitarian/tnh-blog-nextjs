@@ -11,7 +11,7 @@ import TweetComponent from '@components/embeddedTweet'
 // const website_url = 'thenewhumanitarian.org'
 
 const RichtextComponent = (props) => {
-	const { content, className } = props
+	const { content, className, assets } = props
 
 	const [isLoadedInIframe, setIsLoadedInIframe] = useState(false);
 
@@ -45,34 +45,24 @@ const RichtextComponent = (props) => {
 					</Link>
 				);
 			},
-			[BLOCKS.PARAGRAPH]: (node, children) => <p>{children}</p>,
+			[BLOCKS.PARAGRAPH]: (node, children) => <p className={'mb-3'}>{children}</p>,
 			[BLOCKS.HEADING_6]: (node, children) => <p>{children}</p>,
 			[BLOCKS.HR]: () => <hr className={'mt-5 mb-8'} />,
 			[BLOCKS.EMBEDDED_ASSET]: (node) => {
-				const url = node.data.target.fields.file.url
-				const width = node.data.target.fields.file.details.image.width
-				const height = node.data.target.fields.file.details.image.height
-				const title = node.data.target.fields.title || node.data.target.fields.description
-				const fileName = node.data.target.fields.file.fileName
+				// console.log(node)
 
-				return (
-					<figure key={fileName} className={'my-5 max-w-4xl'}>
-						<Image
-							key={fileName}
-							alt={title || 'Photo of timeline entry'}
-							src={`https:${url.indexOf('?w') > -1 ? url : `${url}?w=850`}`}
-							height={height}
-							width={width}
-							placeholder={'blur'}
-							blurDataURL={`https:${url.indexOf('?w') > -1 ? url : `${url}?w=8`}`}
-							style={{
-								width: '100%',
-								height: 'auto',
-							}}
-						/>
-						{/* {description && <figcaption>{description}</figcaption>} */}
-					</figure>
-				)
+				// Find the asset in the assets array by matching node.data.target.sys.id with asset.sys.id
+				const asset = assets.find((asset) => asset.sys.id === node.data.target.sys.id)
+				console.log(asset)
+
+				const image = {
+					url: asset.url,
+					width: asset.width,
+					height: asset.height,
+					fileName: asset.fileName,
+				}
+
+				return <Image src={image.url} width={image.width} height={image.height} className={'my-5 w-full object-cover'} />
 			},
 			[BLOCKS.EMBEDDED_ENTRY]: (node) => {
 				const contentType = node.data.target.sys.contentType.sys.id

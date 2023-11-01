@@ -6,8 +6,9 @@ import { callContentful } from '@utils/contentfulHelper'
 import HeaderComponent from '@components/common/header'
 import Feed from '@components/live-blog/feed'
 import HorizontalTimelineComponent from '@components/live-blog/timeline/horizontalTimeline'
+import CollapsibleBox from '@components/live-blog/collapsibleBox'
 
-const AllLiveBlogs = ({ lang, liveBlogData, liveBlogPages, liveBlogAuthors, author }) => {
+const AllLiveBlogs = ({ lang, liveBlogData, liveBlogPages, liveBlogAuthor, liveBlogAuthors, author }) => {
 	const filteredByAuthor = liveBlogData.contentCollection.items.filter((item) => item.blogEntryAuthor.slug === author)
 
 	return (
@@ -33,6 +34,12 @@ const AllLiveBlogs = ({ lang, liveBlogData, liveBlogPages, liveBlogAuthors, auth
 			<div className='flex flex-col-reverse sm:grid sm:grid-flow-col sm:grid-cols-9 gap-8 px-3 sm:px-8 mt-3 sm:mt-10 items-start'>
 				<Sidebar title={liveBlogData.title} lang={lang} liveBlogPages={liveBlogPages} showFilter={liveBlogAuthors} currentFilter={author} />
 				<div className='grid items-start grid-cols-1 col-span-7 xl:col-span-5 gap-y-5'>
+					{/* Collapsible box */}
+
+					{liveBlogAuthor[0].authorHeader && (
+						<CollapsibleBox author={liveBlogAuthor[0]} content={liveBlogAuthor[0].authorHeader.json} openByDefault={false} assets={liveBlogAuthor[0].authorHeader.links.assets.block} />
+					)}
+
 					<h2>All entries by {filteredByAuthor[0].blogEntryAuthor.name}</h2>
 					<Feed lang={lang} entries={filteredByAuthor} />
 				</div>
@@ -112,6 +119,8 @@ export const getStaticProps = async (ctx) => {
 
 	const liveBlogPages = await callContentful(pagesQuery)
 
+	console.log(author)
+
 	const authorsQuery = `{
 		liveBlogAuthorCollection {
 			items {
@@ -127,6 +136,37 @@ export const getStaticProps = async (ctx) => {
 		}
 	}`
 
+	const authorQuery = `{
+		liveBlogAuthorCollection(limit: 1, where: { slug: "${author}" }) {
+			items {
+				name
+				image {
+					url
+				}
+				sys {
+					id
+				}
+				slug
+				authorHeader {
+					json
+					links {
+					  assets {
+						block {
+						  url
+						  fileName
+						  width
+						  height
+						  sys { id }
+						}
+					  }
+					}
+				  }
+			}
+		}
+	}`
+
+
+	const liveBlogAuthor = await callContentful(authorQuery)
 	const liveBlogAuthors = await callContentful(authorsQuery)
 
 	return {
@@ -134,6 +174,7 @@ export const getStaticProps = async (ctx) => {
 			lang,
 			liveBlogData: liveBlog.data.liveBlogCollection.items[0],
 			liveBlogPages: liveBlogPages.data.liveBlogPageCollection.items,
+			liveBlogAuthor: liveBlogAuthor.data.liveBlogAuthorCollection.items,
 			liveBlogAuthors: liveBlogAuthors.data.liveBlogAuthorCollection.items,
 			author: author,
 		},
