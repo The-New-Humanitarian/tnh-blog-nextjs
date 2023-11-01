@@ -14,7 +14,12 @@ import RichtextComponent from '@components/live-blog/text'
 const MediaPlayer = ({ el, lang }) => {
 	console.log(lang)
 
-	if (el.mediaUrl) {
+	const hasPlaceholderImage = (el) => el.placeholderImage?.url;
+	const isAudioUrl = (url) => /\.(mp3|ogg|wav)$/.test(url);
+
+	const isAudioFile = hasPlaceholderImage(el) && isAudioUrl(el.media.url)
+
+	if (el.mediaUrl && !isAudioFile) {
 		return (
 			<>
 				<div className={`bg-burgundy p-1 flex flex-col items-center justify-center`}>
@@ -63,9 +68,7 @@ const MediaPlayer = ({ el, lang }) => {
 		)
 	}
 
-	if (el.media?.url && !el.mediaUrl) {
-		const isAudioFile = el.placeholderImage?.url && el.media.url.match(/\.(mp3|ogg|wav)$/)
-
+	if (el.media?.url && !el.mediaUrl && !isAudioFile) {
 		return (
 			<>
 				<div className={`bg-burgundy p-1 flex flex-col items-center justify-center ${el.caption?.json ? '' : 'mb-8'}`}>
@@ -78,6 +81,7 @@ const MediaPlayer = ({ el, lang }) => {
 								attributes: {
 									crossOrigin: 'anonymous',
 								},
+
 								file: {
 									tracks: [
 										{
@@ -103,9 +107,9 @@ const MediaPlayer = ({ el, lang }) => {
 							playsinline
 							url={`${el.media.url}`}
 						/>
-						{isAudioFile && (
+						{/* {isAudioFile && (
 							<img src={el.placeholderImage.url} className={'absolute w-full h-full object-cover'} />
-						)}
+						)} */}
 						{el.credit && (
 							<div className={'absolute left-0 bottom-0 bg-white opacity-80 hover:opacity-100 px-1'}>
 								<span>{el.credit}</span>
@@ -119,6 +123,19 @@ const MediaPlayer = ({ el, lang }) => {
 					</div>
 				)}
 			</>
+		)
+	}
+
+	if (isAudioFile && el.media?.url) {
+		return (
+			<div className={'relative aspect-[16/9]'}>
+				<video controls className={'relative w-full h-full absolute'}>
+					<source src={el.media.url} type="audio/mp3" />
+					<track kind="subtitles" src={el.captionFile?.url} srclang="en" label="English" />
+					Your browser does not support the video tag.
+				</video>
+				<img style={{marginTop: '-56.25%'}} src={el.placeholderImage.url} className={'absolute w-full h-full object-cover'} />
+			</div>
 		)
 	}
 }

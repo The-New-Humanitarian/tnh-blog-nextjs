@@ -16,6 +16,24 @@ function MyApp({ Component, pageProps }) {
 	}, []);
 
 	useEffect(() => {
+		window.OneSignalDeferred = window.OneSignalDeferred || [];
+		OneSignalDeferred.push(function (OneSignal) {
+			OneSignal.init({
+				appId: "b0bf70fc-486e-4f40-9fdc-ebc4c2bd30ce",
+				safari_web_id: "web.onesignal.auto.0d6d1ede-d24a-45d0-ba73-2f88839c0735",
+				notifyButton: {
+					enable: true,
+				},
+				subdomainName: "newhu",
+			})
+		})
+
+		return () => {
+			window.OneSignal = undefined;
+		};
+	}, []); // <-- run this effect once on mount
+
+	useEffect(() => {
 		window.OneSignal = window.OneSignal || [];
 		OneSignal.push(function () {
 			OneSignal.init({
